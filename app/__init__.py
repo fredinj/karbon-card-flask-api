@@ -8,6 +8,6 @@ def create_app():
 
     # Register the blueprint
     app.register_blueprint(main_routes)
-    app.register_blueprint(api)
+    app.register_blueprint(api, url_prefix='/api')
 
     return app

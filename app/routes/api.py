@@ -1,15 +1,31 @@
 from flask import Blueprint, jsonify, request
+import json
+from karbon import model
+
 
 api = Blueprint('api', __name__)
+  
+@api.route('/upload-data', methods=['POST'])
+def upload_json():
+    try:
+        # Check if a file is part of the request
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part"}), 400
 
-@api.route('/api/items', methods=['GET'])
-def get_items():
-    # Example response
-    items = [{"id": 1, "name": "Item 1"}, {"id": 2, "name": "Item 2"}]
-    return jsonify(items)
+        file = request.files['file']
 
-@api.route('/api/items', methods=['POST'])
-def create_item():
-    data = request.get_json()  # Get JSON data from the request
-    new_item = {"id": 3, "name": data['name']}  # Example item creation
-    return jsonify(new_item), 201  # Return created item with 201 status
+        # Check if the file has a name and is a JSON file
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+
+        if not file.filename.endswith('.json'):
+            return jsonify({"error": "File must be a JSON file"}), 400
+
+        # Load the JSON data from the file
+        data = json.load(file)
+
+        flags = model.probe_model_5l_profit(data['data'])
+
+        return jsonify(flags), 200  
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

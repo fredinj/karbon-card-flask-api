@@ -1,7 +1,8 @@
-from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, iscr, borrowing_to_revenue_flag
+from karbon.rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, iscr, borrowing_to_revenue_flag
 import json
+from flask import jsonify
 
-
+    
 def probe_model_5l_profit(data: dict):
     """
     Evaluate various financial flags for the model.
@@ -9,8 +10,9 @@ def probe_model_5l_profit(data: dict):
     :param data: A dictionary containing financial data.
     :return: A dictionary with the evaluated flag values.
     """
+    
     lastest_financial_index_value = latest_financial_index(data)
-
+    
     total_revenue_5cr_flag_value = total_revenue_5cr_flag(
         data, lastest_financial_index_value
     )
@@ -28,7 +30,6 @@ def probe_model_5l_profit(data: dict):
             "ISCR_FLAG": iscr_flag_value,
         }
     }
-
 
 if __name__ == "__main__":
     # data = json.loads("t.json")

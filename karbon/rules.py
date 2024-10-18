@@ -179,10 +179,11 @@ def borrowing_to_revenue_flag(data: dict, financial_index):
     - FLAGS.GREEN or FLAGS.AMBER: The flag color based on the borrowing to revenue ratio.
     """
     if financial_index < len(data['financials']) and financial_index >=0:
-      financial = data['financials'][financial_index]    
       total_borrowings = total_borrowing(data, financial_index)
+      total_rev = total_revenue(data, financial_index)
+      borrowing_to_revenue_ratio = total_borrowings/total_rev
       flags = FLAGS()
-      if total_borrowings <=0.25:
+      if borrowing_to_revenue_ratio <=0.25:
         return flags.GREEN
       else:
         return flags.AMBER
