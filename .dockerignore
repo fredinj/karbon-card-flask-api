@@ -1,0 +1,15 @@
+__pycache__/
+**/__pycache__/
+.env
+*.env
+.venv
+.vscode/
+.ipynb_checkpoints
+.DS_Store
+Thumbs.db
+
+
+# Flask specific
+*.db
+*.sqlite3
+*.pkl
